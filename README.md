@@ -24,7 +24,7 @@
 10.更多数据请[点击]().</br>
 
 ## 总体思路
-1.登陆：使用selenium模拟登陆知乎，获取cookies，然后将cookies保存至本地</br>
+1.登陆：使用selenium模拟登陆知乎，获取cookies，然后将cookies保存至本地，为了避免被反爬，每次爬取随机延时</br>
 2.数据库：MySQL数据库存储爬取的数据</br>
 3.redis：保存爬取的回答ID，避免爬虫中断后重新爬取。如何快速在windows下安装linux版本的redis，[请点击](https://blog.csdn.net/leeyoshinari/article/details/89070281)</br>
 4.性别：首先获取知乎性别，但知乎性别很多都是假的，于是用图片的人脸识别出的性别替换知乎性别，又由于图片可能是表情包，于是又从回答内容中正则出性别，以保证性别获取尽可能准确。</br>
