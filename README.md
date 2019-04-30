@@ -21,7 +21,7 @@
 9.所有评论的词云图如下图所示：</br>
 ![](https://github.com/leeyoshinari/soulmate/blob/master/res/comment.png)</br>
 
-10.更多数据请[点击]().</br>
+10.更多数据[请点击](https://mp.weixin.qq.com/s?__biz=Mzg5OTA3NDk2MQ==&mid=2247483738&idx=1&sn=664f2faed886d2f5715c640a5c390c1f&chksm=c0599fa4f72e16b2979ed378dc19033b4831bf0202962781c9f4991725ae34f468bce24a9302&token=11969908&lang=zh_CN#rd).</br>
 
 ## 总体思路
 1.登陆：使用selenium模拟登陆知乎，获取cookies，然后将cookies保存至本地，为了避免被反爬，每次爬取随机延时</br>
