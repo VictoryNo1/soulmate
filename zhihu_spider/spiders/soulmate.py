@@ -90,15 +90,15 @@ class SoulmateSpider(scrapy.Spider):
 					                                 'code is {}'.format(response.text, result['code']))
 					break
 
+                                if result['counter']:
+					items['gender'] = result['gender']  # 如果有人脸，则用人脸识别的性别修改从知乎上获取的性别
+					items['face_shape'] = result['face_shape']  # 如果有人脸，则用人脸识别的脸型修改默认值
+
 				items['pic_num'] = result['counter']    # 有效图片数，有人脸的图片
 
 				user_info = self.get_user_info(contents)
 				if user_info['gender'] != -1:
 					items['gender'] = user_info['gender']     # 如果回答中明确说明自己的性别，则替换已有的值
-
-				if result['counter']:
-					items['gender'] = result['gender']  # 如果有人脸，则用人脸识别的性别修改从知乎上获取的性别
-					items['face_shape'] = result['face_shape']  # 如果有人脸，则用人脸识别的脸型修改默认值
 
 				if user_info['height'] >= 180 and user_info['weight'] >= 65:
 					items['gender'] = 1
