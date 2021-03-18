@@ -95,8 +95,6 @@ ITEM_PIPELINES = {
 
 
 # zhihu username and password
-USERNAME = '123456'
-PASSWORD = '123456'
 COOKIE_PATH = os.path.dirname(os.path.abspath(__file__))
 IMAGES_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'images')
 
@@ -104,18 +102,19 @@ IMAGES_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'images')
 MYSQL_HOST = '127.0.0.1'
 MYSQL_USER = 'root'
 MYSQL_PASSWORD = '123456'
-MYSQL_DATABASE = 'zhihu'
+MYSQL_DATABASE = 'soulmate'
 
 # Redis ip and port, and password
-IS_REDIS = True     # Whether Redis is installed.
+IS_REDIS = True
 REDIS_HOST = '127.0.0.1'
 REDIS_PORT = '6379'
 REDIS_PASSWORD = '123456'
 
 # baidu's developer account. AppID, ApiKey, and SecretKey
-AppID = '123456'
-ApiKey = 'asdfghjklzxcvbnm'
-SecretKey = 'asdfghjklzxcvbnm'
+IS_BAIDU = True
+AppID = '10566688'
+ApiKey = 'Yqr8UqhytWF6B7rdKPS9b5Tp'
+SecretKey = 'fWgPzhDacPGZCqiKliYlS567gwgEnuKH'
 
 #
 USER_AGENT = [

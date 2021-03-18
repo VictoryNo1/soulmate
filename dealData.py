@@ -18,8 +18,8 @@ def ReadDateFromMySQL():
 	db = pymysql.connect(cfg.MYSQL_HOST, cfg.MYSQL_USER, cfg.MYSQL_PASSWORD, cfg.MYSQL_DATABASE)
 	cursor = db.cursor()
 
-	answer_sql = """SELECT answer_id, answerer_id, url_token, name, gender, age, height, weight, beauty, voteup_count, comment_count, create_time, update_time, headline, content FROM answers;"""
-	comment_sql = """SELECT content, url_token, create_time FROM comments;"""
+	answer_sql = """SELECT a.answer_id, a.answerer_id, a.url_token, a.name, a.gender, a.age, a.height, a.weight, a.beauty, a.voteup_count, a.comment_count, a.create_time, a.update_time, a.headline, a.content FROM answers a JOIN (select answer_id answer_id , MAX(id) id from answers where code=110 group by answer_id) as b ON a.id=b.id;"""
+	comment_sql = """SELECT content, url_token, create_time FROM comments_1 where code=110;"""
 
 	cursor.execute(answer_sql)
 	answer_res = cursor.fetchall()
@@ -90,7 +90,7 @@ def random_color(num, bright=True):
 	:param bright: 颜色亮度
 	:return: 生成的颜色列表，RGB格式
 	"""
-	brightness = 1.0 if bright else 0.7
+	brightness = 0.8 if bright else 0.7
 	hsv = [(i / num, 1, brightness) for i in range(num)]
 	colors = list(map(lambda c: colorsys.hsv_to_rgb(*c), hsv))
 	np.random.shuffle(colors)
@@ -173,11 +173,14 @@ def word_frequency(contents, title):
 	:param contents: 待生成词云图的文本, 列表
 	:param title: 生成的词云图的标题
 	"""
+	exclude_w = {'呢', '不', '哈哈', '一个', '还是', '评论', '删除', '可以', '自己', '虽然', '请问', '其实', '怎么', '这么', '那么', '答主', '所以',
+				 '你好', '这个', '加油', '一点', '哪里', '是不是', '有点', '我', '你', '的', '是', '人', '了', '吧', '呀', '在', '啊', '吗', '也', '该'
+				 '哈哈哈', '都', '就'}
 	if isinstance(contents, list):
 		text = [" ".join(jieba.cut(content, cut_all=False)) for content in contents]
 
 		word_cloud = WordCloud(width=1920, height=1080, font_path='simhei.ttf',
-							   background_color='white').generate(' '.join(text))
+							   background_color='white', stopwords=exclude_w).generate(' '.join(text))
 
 		plt.figure('title')
 		plt.imshow(word_cloud)
@@ -409,10 +412,10 @@ def deal_answer(answers):
 	print('*'*45)
 	for ind in range(1, 11):
 		print('{}      {}'.format(sort_create[-ind], sort_update[-ind]))
-	'''
+
 	male_content, female_content = gender_content(genders, contents)
 	word_frequency(male_content, 'male answer content')
-	word_frequency(female_content, 'female answer content')'''
+	word_frequency(female_content, 'female answer content')
 
 
 def deal_comment(comments):

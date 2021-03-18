@@ -18,6 +18,7 @@ class MySQL(object):
 
 		answers_sql = """
 			  CREATE TABLE IF NOT EXISTS answers (
+			          id INT NOT NULL AUTO_INCREMENT,
 			          answer_id VARCHAR(20) NOT NULL,
 			          answerer_id VARCHAR(50),
 			          url_token VARCHAR(100),
@@ -36,7 +37,8 @@ class MySQL(object):
 			          comment_count INT,
 			          create_time DATETIME,
 			          update_time DATETIME,
-			          PRIMARY KEY (answer_id))"""
+			          code INT,
+			          PRIMARY KEY (id))"""
 
 		self.cursor.execute(answers_sql)
 
@@ -44,6 +46,7 @@ class MySQL(object):
 			  CREATE TABLE IF NOT EXISTS comments (
 					  answer_id VARCHAR(20) NOT NULL,
 					  comment_id VARCHAR(20),
+					  parent_id VARCHAR(20),
 					  content LONGTEXT,
 					  vote_count INT,
 					  commenter_id VARCHAR(50),
@@ -52,6 +55,7 @@ class MySQL(object):
 					  gender INT,
 					  headline VARCHAR(255),
 					  create_time DATETIME,
+					  code INT,
 					  PRIMARY KEY (comment_id))"""
 
 		self.cursor.execute(comments_sql)

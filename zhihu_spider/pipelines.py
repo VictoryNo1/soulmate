@@ -5,6 +5,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import copy
+import traceback
 from twisted.enterprise import adbapi
 from zhihu_spider.items import SoulmateAnswerItem, SoulmateCommentItem
 
@@ -41,24 +42,26 @@ class MySQLTwistedPipeline(object):
 
     def write_item(self, cursor, item):
         if isinstance(item, SoulmateAnswerItem):
-            insert_sql = "INSERT INTO answers VALUES {}".format((item['answer_id'], item['answerer_id'],
+            insert_sql = "INSERT INTO answers (answer_id, answerer_id, url_token, name, gender, age, height, weight, beauty, face_shape, pic_num, follower_count, headline, content, voteup_count, comment_count, create_time, update_time, code) VALUES {}".format((item['answer_id'], item['answerer_id'],
                           item['url_token'], item['name'], item['gender'], item['age'], item['height'],
                           item['weight'], item['beauty'], item['face_shape'], item['pic_num'],
                           item['follower_count'], item['headline'], item['content'], item['voteup_count'],
-                          item['comment_count'], item['create_time'], item['update_time']))
+                          item['comment_count'], item['create_time'], item['update_time'], item['code']))
 
             try:
                 cursor.execute(insert_sql)
             except Exception as e:
-                print(e)
+                # print(traceback.format_exc())
+                print('answer: {}'.format(e))
 
         if isinstance(item, SoulmateCommentItem):
-            comment_sql = "INSERT INTO comments VALUE {}".format((item['answer_id'], item['comment_id'],
+            comment_sql = "INSERT IGNORE INTO comments_{} VALUE {}".format(item['parentCode'], (item['answer_id'], item['comment_id'], item['parent_id'],
                            item['comment_content'], item['vote_count'], item['commenter_id'], item['commenter_token'],
                            item['commenter_name'], item['commenter_gender'], item['commenter_headline'],
-                           item['create_time']))
+                           item['create_time'], item['code']))
 
             try:
                 cursor.execute(comment_sql)
             except Exception as e:
-                print(e)
+                # print(traceback.format_exc())
+                print('comment: {}'.format(e))

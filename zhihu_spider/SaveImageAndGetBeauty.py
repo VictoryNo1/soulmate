@@ -73,7 +73,7 @@ def get_beauty(image, flag=True):
 
 	print(res)
 	if res['error_code'] == 0:
-		if res['result']['face_list'][0]['face_probability'] > 0.7:
+		if res['result']['face_list'][0]['face_probability'] > 0.9 and res['result']['face_list'][0]['beauty'] < 40:
 			return {'code': res['error_code'], 'beauty': res['result']['face_list'][0]['beauty'],
 			        'gender': res['result']['face_list'][0]['gender']['type'],
 			        'face_shape': res['result']['face_list'][0]['face_shape']['type']}
@@ -88,7 +88,7 @@ def get_beauty(image, flag=True):
 		return {'code': res['error_code'], 'beauty': -1, 'gender': -1, 'face_shape': -1}
 
 
-def get_image_and_beauty(user_id, image_urls):
+def get_image_and_beauty(user_id, image_urls, is_save=True, is_baidu=True):
 	G = ['female', 'male']
 	if len(image_urls) and isinstance(image_urls, list):
 		if not os.path.exists(cfg.IMAGES_PATH):
@@ -106,18 +106,25 @@ def get_image_and_beauty(user_id, image_urls):
 			except Exception as e:
 				print(e, img_url)
 				continue
-			result = get_beauty(base64.b64encode(img_res).decode())
-			# code.append(result['code'] if isinstance(result['code'], int) else 444444)
-			# beauty.append(result['beauty'])
+			if is_baidu:
+				result = get_beauty(base64.b64encode(img_res).decode())
+				# code.append(result['code'] if isinstance(result['code'], int) else 444444)
+				# beauty.append(result['beauty'])
 
-			if result['code'] == 0:
-				code.append(result['code'])
-				beauty.append(result['beauty'])
-				gender.append(G.index(result['gender']))
-				face_shape.append(result['face_shape'])
-				flag = 1
-				image_name = os.path.join(cfg.IMAGES_PATH, '{}_{}.jpg'.format(user_id, ind))
-				save_image(image_name, img_res)
+				if result['code'] == 0:
+					code.append(result['code'])
+					beauty.append(result['beauty'])
+					gender.append(G.index(result['gender']))
+					face_shape.append(result['face_shape'])
+					flag = 1
+					if is_save:
+						image_name = os.path.join(cfg.IMAGES_PATH, '{}_{}.jpg'.format(user_id, ind))
+						save_image(image_name, img_res)
+					ind += 1
+			else:
+				if is_save:
+					image_name = os.path.join(cfg.IMAGES_PATH, '{}_{}.jpg'.format(user_id, ind))
+					save_image(image_name, img_res)
 				ind += 1
 
 		if flag:

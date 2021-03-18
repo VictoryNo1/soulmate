@@ -29,8 +29,8 @@ class Login(object):
 		self.driver.get('https://www.zhihu.com')
 
 		# switch to login mode
-		WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.CLASS_NAME, 'SignContainer-switch')))
-		self.driver.find_element_by_class_name('SignContainer-switch').find_element_by_tag_name('span').click()
+		WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//div[@class="SignFlow-tab"]')))
+		self.driver.find_element_by_xpath('//div[@class="SignFlow-tab"]').click()
 
 		self.driver.find_element(By.NAME, 'username').clear()
 		self.driver.find_element(By.NAME, 'username').send_keys(cfg.USERNAME)   # input username
@@ -45,7 +45,7 @@ class Login(object):
 		# If captcha is needed. If captcha is English, a captcha is need to be inputted.
 		# If captcha is Chinese, Chinese character need to be clicked, and enter any character to continue.
 		images = 0
-		try:
+		'''try:
 			images = self.driver.find_element_by_class_name('Captcha-englishContainer').find_element_by_tag_name('img').get_attribute('src')
 			flag_input = 1
 		except:
@@ -60,9 +60,9 @@ class Login(object):
 			else:
 				input('请确认是否点击完成')
 
-		self.driver.find_element_by_xpath('//button[@type="submit"]').click()   # login
+		self.driver.find_element_by_xpath('//button[@type="submit"]').click()   # login'''
 
-		time.sleep(2)   # wait to cookies loading
+		time.sleep(20)   # wait to cookies loading
 		cookie = self.driver.get_cookies()  # get cookies
 		for c in cookie:
 			self.cookies.update({c['name']: c['value']})
