@@ -1,0 +1,5 @@
+.vscode/*
+C/*.exe
+Java/*.class
+log.txt
+zhihu_spider/__pycache__/*
