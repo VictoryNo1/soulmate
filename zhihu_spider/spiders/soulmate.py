@@ -15,6 +15,7 @@ from zhihu_spider.login import Login
 from zhihu_spider.MySQL import MySQL
 from zhihu_spider.items import SoulmateAnswerItem, SoulmateCommentItem
 from zhihu_spider.SaveImageAndGetBeauty import get_image_and_beauty
+import logging as log
 
 
 class SoulmateSpider(scrapy.Spider):
@@ -77,6 +78,7 @@ class SoulmateSpider(scrapy.Spider):
 
                 updateTime = str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(answer.get('updated_time'))))
                 if self.r_0.get(str(answer.get('id'))) == updateTime or str(answer.get('id'))=='550465108':   # 如果这个答案爬过，直接跳过，防止爬虫中断后重新爬取
+                # if False:
                     print('{}：此回答未更新，跳过'.format(answer.get('id')))
                     time.sleep(random.randint(1, 2))
                     yield scrapy.Request(url=self.comment_url.format(answer.get('id')), headers=self.headers,
@@ -99,6 +101,7 @@ class SoulmateSpider(scrapy.Spider):
                         user_url = answer.get('id')
                     image_urls = self.get_imageurl(contents)    # 获取回答中的所有图片的url
                     result = get_image_and_beauty(user_url, image_urls, is_save=is_save, is_baidu=self.IS_BAIDU)  # 计算图片中人脸的颜值和性别，以及有效图片(有人脸的)数
+                    # result = get_image_and_beauty(user_url, image_urls, is_save=True, is_baidu=self.IS_BAIDU)  # 计算图片中人脸的颜值和性别，以及有效图片(有人脸的)数
                     if result['code'] == 0:
                         items['beauty'] = result['beauty']
                     elif result['code'] in [17, 18, 19, 222207]:    # 异常返回错误码，表明颜值检测不可用，终止爬虫
@@ -188,6 +191,7 @@ class SoulmateSpider(scrapy.Spider):
                 child_comment_id = child.get('id')  # 评论id
                 child_create_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(child.get('created_time')))
                 if self.r_1.get(str(child_comment_id)) == child_create_time:
+                # if False:
                     print('{}：该评论已入库，跳过'.format(child_comment_id))
                 else:
                     self.r_1.set(str(child_comment_id), child_create_time)

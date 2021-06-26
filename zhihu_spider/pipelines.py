@@ -55,7 +55,11 @@ class MySQLTwistedPipeline(object):
                 print('answer: {}'.format(e))
 
         if isinstance(item, SoulmateCommentItem):
-            comment_sql = "INSERT IGNORE INTO comments_{} VALUE {}".format(item['parentCode'], (item['answer_id'], item['comment_id'], item['parent_id'],
+            '''comment_sql = "INSERT IGNORE INTO comments_{} VALUE {}".format(item['parentCode'], (item['answer_id'], item['comment_id'], item['parent_id'],
+                           item['comment_content'], item['vote_count'], item['commenter_id'], item['commenter_token'],
+                           item['commenter_name'], item['commenter_gender'], item['commenter_headline'],
+                           item['create_time'], item['code']))'''
+            comment_sql = "INSERT IGNORE INTO comments_1 VALUE {}".format((item['answer_id'], item['comment_id'], item['parent_id'],
                            item['comment_content'], item['vote_count'], item['commenter_id'], item['commenter_token'],
                            item['commenter_name'], item['commenter_gender'], item['commenter_headline'],
                            item['create_time'], item['code']))

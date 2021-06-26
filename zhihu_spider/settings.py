@@ -112,9 +112,9 @@ REDIS_PASSWORD = '123456'
 
 # baidu's developer account. AppID, ApiKey, and SecretKey
 IS_BAIDU = True
-AppID = '10566688'
-ApiKey = 'Yqr8UqhytWF6B7rdKPS9b5Tp'
-SecretKey = 'fWgPzhDacPGZCqiKliYlS567gwgEnuKH'
+AppID = '24438260'
+ApiKey = 'dANTvqiTg7z1Wfyb0jbOxfz1'
+SecretKey = 'UEX5hQiZBMT7is2FgjI6zt1MCCUGFXMR'
 
 #
 USER_AGENT = [
