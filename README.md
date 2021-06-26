@@ -43,7 +43,7 @@
 ## Installation
 1. Clone soulmate repository
 	```Shell
-	$ git clone https://github.com/leeyoshinari/soulmate.git
+	$ git clone git@github.com:VictoryNo1/soulmate.git
     $ cd soulmate
 	```
 
